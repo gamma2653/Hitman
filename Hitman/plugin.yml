@@ -1,0 +1,5 @@
+main: com.gamsion.chris.mc.hitman.Main
+name: Hitman
+version: 0.1a
+author: gamma2626
+description: A plugin that allows players to set boutnies and become bounty hunters.
