@@ -1,4 +1,4 @@
-main: com.gamsion.chris.mc.hitman.Main
+main: com.gamsion.chris.mc.hitman.Hitman
 name: Hitman
 version: 0.1a
 author: gamma2626
