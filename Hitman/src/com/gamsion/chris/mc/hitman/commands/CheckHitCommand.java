@@ -8,23 +8,18 @@ import org.bukkit.entity.Player;
 
 import com.gamsion.chris.mc.hitman.Hitman;
 
-/**
- * <p>
- * Adds command functionality for <b>/hit</b>
- * </p>
- * 
- * @author gamma2626
- **/
-public class HitCommand implements CommandExecutor {
-	Hitman p;
+public class CheckHitCommand implements CommandExecutor {
 
-	public HitCommand(Hitman p) {
+	private final Hitman p;
+
+	public CheckHitCommand(Hitman p) {
 		this.p = p;
+
 	}
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String lbl, String[] args) {
-		if (args.length < 2)
+		if (args.length < 1)
 			return false;
 		Player receiver = p.getServer().getPlayer(args[0]);
 		if (receiver == null) {
@@ -32,19 +27,13 @@ public class HitCommand implements CommandExecutor {
 			return false;
 		}
 
-		double amount = 0;
-		try {
-			amount = Integer.parseInt(args[1]);
-		} catch (NumberFormatException e) {
-			sender.sendMessage(ChatColor.DARK_RED + "Must input a proper number! (Decimals are acceptable)");
+		if (!p.bounties.keySet().contains(receiver.getUniqueId())) {
+			sender.sendMessage(ChatColor.DARK_RED + "Player not found on bounty list.");
 			return false;
 		}
-		if (amount <= 0) {
-			sender.sendMessage(ChatColor.DARK_RED + "Must be higher than 0!");
-		}
 
-		p.bounties.put(receiver.getUniqueId(), amount);
-
+		sender.sendMessage(ChatColor.GREEN + String.format("%s currently has $%s bounty on his head.",
+				receiver.getName(), p.bounties.get(receiver.getUniqueId())));
 		return true;
 	}
 
