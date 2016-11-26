@@ -1,5 +1,8 @@
 package com.gamsion.chris.mc.hitman.commands;
 
+import java.text.DecimalFormat;
+
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -34,7 +37,7 @@ public class HitCommand implements CommandExecutor {
 
 		double amount = 0;
 		try {
-			amount = Integer.parseInt(args[1]);
+			amount = Double.parseDouble(args[1]);
 		} catch (NumberFormatException e) {
 			sender.sendMessage(ChatColor.DARK_RED + "Must input a proper number! (Decimals are acceptable)");
 			return false;
@@ -42,9 +45,34 @@ public class HitCommand implements CommandExecutor {
 		if (amount <= 0) {
 			sender.sendMessage(ChatColor.DARK_RED + "Must be higher than 0!");
 		}
-
-		p.bounties.put(receiver.getUniqueId(), amount);
-
+		String sendername;
+		if (sender instanceof Player) {
+			Player player = (Player) sender;
+			//Self-harm prevention and debug
+			if((player.getUniqueId() == receiver.getUniqueId()) && !p.getConfig().getBoolean("DEBUG.bounty-yourself")){
+				player.sendMessage(ChatColor.RED+"You can't put a bounty on yourself!");
+				return false;
+			}
+			sendername = player.getDisplayName();
+			Hitman.econ.withdrawPlayer((Player) sender, amount);
+		} else {
+			sendername = ChatColor.BLACK + p.getConfig().getString("settings.server-name");
+		}
+		if (p.bounties.containsKey(receiver.getUniqueId())) {
+			p.bounties.put(receiver.getUniqueId(), p.bounties.get(receiver.getUniqueId()) + amount);
+		} else {
+			p.bounties.put(receiver.getUniqueId(), amount);
+		}
+		if (p.getConfig().getBoolean("settings.displaywhohit")) {
+			Bukkit.broadcastMessage(ChatColor.GREEN + String.format(
+					"A bounty has been placed on %s" + ChatColor.GREEN + " by " + "%s" + ChatColor.GREEN + " for "
+							+ ChatColor.DARK_GREEN + "$%s!",
+					receiver.getDisplayName(), sendername, new DecimalFormat("0.00").format(amount)));
+		} else {
+			Bukkit.broadcastMessage(ChatColor.GREEN + String.format(
+					"A bounty has been placed on %s" + ChatColor.GREEN + " for " + ChatColor.DARK_GREEN + "$%s!",
+					receiver.getDisplayName(), new DecimalFormat("0.00").format(amount)));
+		}
 		return true;
 	}
 

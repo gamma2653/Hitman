@@ -3,3 +3,10 @@ name: Hitman
 version: 0.1a
 author: gamma2626
 description: A plugin that allows players to set boutnies and become bounty hunters.
+commands:
+  hit:
+    description: Allows the player to set a reward for killing another player.
+    usage: /hit <player> <amount>
+  checkhit:
+    description: Allows one to see how much of a reward is on someone's head.
+    usage: /checkhit <player>

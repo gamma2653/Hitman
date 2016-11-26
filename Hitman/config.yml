@@ -1,0 +1,22 @@
+#sqlite: Use sqlite?
+#uuid: Save using uuids or names? (HEAVILY RECCOMMEND UUID)
+save:
+  sqlite: false
+  uuid: true
+#displaywhohit: Display the name of the person who claimed the bounty
+#fee: Additional fee for placing a bounty
+#server-name: Name of server when they use hit command.
+#lose-bounty-without-claim: If player with bounty dies of natural/otherwise causes,
+#do they lose their bounty?
+settings:
+  displaywhohit: false
+  displaywhoclaimed: true
+  fee: 0
+  server-name: NOTCH
+  lose-bounty-without-claim: false
+#These are primarily made for my loneliness in testing this plugin.
+#bounty-yourself: Can you set a bounty on yourself?
+#bounty-get-yourself: Can you claim a bounty on yourself? Like suicide for cash ;3;
+DEBUG:
+  bounty-yourself: false
+  bounty-get-yourself: false

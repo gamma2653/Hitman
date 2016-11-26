@@ -1,5 +1,7 @@
 package com.gamsion.chris.mc.hitman.commands;
 
+import java.text.DecimalFormat;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -27,13 +29,13 @@ public class CheckHitCommand implements CommandExecutor {
 			return false;
 		}
 
-		if (!p.bounties.keySet().contains(receiver.getUniqueId())) {
-			sender.sendMessage(ChatColor.DARK_RED + "Player not found on bounty list.");
-			return false;
+		if (!p.bounties.keySet().contains(receiver.getUniqueId()) || p.bounties.get(receiver.getUniqueId()).isNaN()) {
+			sender.sendMessage(ChatColor.RED + "Player not found on bounty list.");
+			return true;
 		}
-
 		sender.sendMessage(ChatColor.GREEN + String.format("%s currently has $%s bounty on his head.",
-				receiver.getName(), p.bounties.get(receiver.getUniqueId())));
+				receiver.getName(), new DecimalFormat("0.00").format(p.bounties.get(receiver.getUniqueId()))));
+		
 		return true;
 	}
 
