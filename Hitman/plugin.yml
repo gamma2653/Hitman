@@ -1,6 +1,6 @@
-main: com.gamsion.chris.mc.hitman.Hitman
-name: Hitman
-version: 0.1a
+main: com.gamsion.chris.mc.bounties.Bounties
+name: Bounties
+version: 0.5
 author: gamma2626
 description: A plugin that allows players to set boutnies and become bounty hunters.
 commands:
@@ -10,3 +10,13 @@ commands:
   checkhit:
     description: Allows one to see how much of a reward is on someone's head.
     usage: /checkhit <player>
+  bounty:
+    description: Accesses all bounty related commands. Either check someone's bounty or set one.
+    usage: |
+      /bounty <"set","put","add"> <player> <amount>
+      /bounty <"list","all">
+      /bounty get <player>
+      /bounty help
+      /bounty cost
+      Set,put,and add all are the same.
+      All and list are the same.

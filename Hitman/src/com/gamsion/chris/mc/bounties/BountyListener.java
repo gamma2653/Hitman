@@ -1,4 +1,6 @@
-package com.gamsion.chris.mc.hitman;
+package com.gamsion.chris.mc.bounties;
+
+import java.text.DecimalFormat;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -7,10 +9,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
-public class HitListener implements Listener {
-	Hitman p;
-
-	public HitListener(Hitman p) {
+public class BountyListener implements Listener {
+	Bounties p;
+	private static final DecimalFormat moneyform = new DecimalFormat("0.00");
+	public BountyListener(Bounties p) {
 		this.p = p;
 	}
 
@@ -27,24 +29,24 @@ public class HitListener implements Listener {
 					Bukkit.broadcastMessage(
 							String.format("%s " + ChatColor.DARK_GRAY + "has died without anyone claiming his bounty!",
 									killed.getDisplayName()));
-					p.bounties.remove(killed.getUniqueId());
+					p.bounties.remove(killed.getUniqueId().toString());
 				}
 				return;
 			}
 			// if killed is on bounty list, carry put transaction and remove
 			// bounty
-			if (p.bounties.containsKey(killed.getUniqueId())) {
-				double bounty = p.bounties.get(killed.getUniqueId());
-				Hitman.econ.depositPlayer(killer, bounty);
+			if (p.bounties.containsKey(killed.getUniqueId().toString())) {
+				double bounty = p.bounties.get(killed.getUniqueId().toString());
+				Bounties.econ.depositPlayer(killer, bounty);
 				if (p.getConfig().getBoolean("settings.displaywhoclaimed")) {
 					Bukkit.broadcastMessage(killer.getDisplayName() + ChatColor.GREEN + " has killed "
-							+ killed.getDisplayName() + ChatColor.GREEN + " for " + bounty);
+							+ killed.getDisplayName() + ChatColor.GREEN + " for $" + moneyform.format(bounty));
 				} else {
-					Bukkit.broadcastMessage(String.format("%s's " + ChatColor.GREEN + "bounty has been claimed!",
-							killed.getDisplayName()));
+					Bukkit.broadcastMessage(String.format("%s's " + ChatColor.GREEN + "bounty ($%s) has been claimed!",
+							killed.getDisplayName(), moneyform.format(bounty)));
 				}
 
-				p.bounties.remove(killed.getUniqueId());
+				p.bounties.remove(killed.getUniqueId().toString());
 			}
 			// if killer is not a player, check if config removes bounty
 		} else {
@@ -52,7 +54,7 @@ public class HitListener implements Listener {
 				Bukkit.broadcastMessage(
 						String.format("%s " + ChatColor.DARK_GRAY + "has died without anyone claiming his bounty!",
 								killed.getDisplayName()));
-				p.bounties.remove(killed.getUniqueId());
+				p.bounties.remove(killed.getUniqueId().toString());
 			}
 		}
 	}
