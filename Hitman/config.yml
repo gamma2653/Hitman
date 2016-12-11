@@ -2,6 +2,7 @@
 #uuid: Save using uuids or names? (HEAVILY RECCOMMEND UUID)
 save:
   sqlite: false
+  databasename: save.db
   uuid: true
 #displaywhohit: Display the name of the person who claimed the bounty
 #fee: Additional fee for placing a bounty

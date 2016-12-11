@@ -27,6 +27,7 @@ public class Bounties extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
+		System.out.println(this.getDataFolder().getAbsolutePath());
 		setupEconomy();
 		setupPermissions();
 		// Set commands
@@ -72,7 +73,7 @@ public class Bounties extends JavaPlugin {
 
 	public void save() {
 		if (this.getConfig().getBoolean("save.sqlite")) {
-
+			
 		} else {
 			YamlConfiguration save = new YamlConfiguration();
 			String directory = "./plugins/Bounties/saves/";
